@@ -12,7 +12,7 @@ import os
 # =============================================================================
 
 starting_time = datetime.now()
-path = r'H:\_Projects\ibb_arac_hizlari/'
+path = r'your_path/'
 file_list = [i for i in os.listdir(path) if i.endswith('.csv')]
 
 # =============================================================================
