@@ -43,6 +43,13 @@ df.isnull().sum()
 df['day_hour'] = pd.to_datetime(df['day_hour'], errors = 'coerce', format = '%Y-%m-%d %H:%M:%S')
 df = df[df['speed'] != 0]
 
+# We have 14 unique observations. The rest of them are duplicated.
+
+len(df.drop_duplicates(subset = df.columns.to_list())) - len(df) / 2
+
+df.drop_duplicates(subset = df.columns.to_list(), inplace = True)
+df.reset_index(drop = True, inplace = True)
+
 df.sort_values(by = ['day_hour', 'vehicle_type', 'speed'], 
                ascending = [True, True, True], 
                na_position = 'last', 
