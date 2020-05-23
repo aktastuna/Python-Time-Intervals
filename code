@@ -2,10 +2,17 @@ Data source: https://data.ibb.gov.tr/dataset/ibb-istac-araclarinin-anlik-konum-v
 
 # The data contains the first month of the relevant year.
 
+pip install geopy
+pip install tqdm
+pip install data-profiling
+
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 import os
+import re
+from geopy.geocoders import Nominatim
+from tqdm import tqdm
 
 # =============================================================================
 # 1) File directories
@@ -99,8 +106,23 @@ duration.seconds/3600
 # 5) Average Car Speed According to the Locations & Vehicle Type
 # =============================================================================
 
-# Loading.........
-# I will work on this part. Once I make it, I will upload it here.
+# Let's take a sample from df.
+test = df.sample(frac = 0.001)
 
+test['vehicle_type'].value_counts()
+test['latitude'] = test['latitude'].astype(str)
+test['longitude'] = test['longitude'].astype(str)
 
+test.drop(columns = test.columns.to_list()[-3:], axis = 1, inplace = True)
 
+# In order to get the locations, I need comma between longitude and latitude.
+test.insert(loc = 1, column = 'long_lat', value = test['longitude'] + ',' + test['latitude'])
+
+location_finder = Nominatim(user_agent = 'http', timeout = 70000)
+
+test['locations'] = test['long_lat'].apply(lambda x: location_finder.reverse(x))
+test.drop(columns = ['geohash', 'longitude', 'latitude'], axis = 1, inplace = True)
+test['locations'].head(10)
+
+##### The addresses are not in order. Some addresses start with neighborhood, some starts with street, some starts with avenue.
+# Therefore, I am still working on this part. I will upload the code once I finish.
