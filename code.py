@@ -1,10 +1,17 @@
-Data source: https://data.ibb.gov.tr/dataset/ibb-istac-araclarinin-anlik-konum-ve-hiz-bilgileri
+'''
+tuna boi love u miss u wish u were here
+
+i was trying to implement some nice things, but im not in the mood to learn panda
+i just added + "\\" + when concatenating strings that representes a file path
+'''
+
+'''Data source: https://data.ibb.gov.tr/dataset/ibb-istac-araclarinin-anlik-konum-ve-hiz-bilgileri
 
 # The data contains the first month of the relevant year.
 
 pip install geopy
 pip install tqdm
-pip install data-profiling
+pip install data-profiling'''
 
 import numpy as np
 import pandas as pd
@@ -19,7 +26,7 @@ from tqdm import tqdm
 # =============================================================================
 
 starting_time = datetime.now()
-path = r'your_path/'
+path = r'C:\Users\PCdGU\Documents\Git\Python-Time-Intervals'
 file_list = [i for i in os.listdir(path) if i.endswith('.csv')]
 
 # =============================================================================
@@ -30,12 +37,17 @@ file_list = [i for i in os.listdir(path) if i.endswith('.csv')]
 
 df = []
 for file in file_list:
-    if file == '01.2019_1-10.csv.csv':
-        temporary_df = pd.read_csv(path + file, delimiter = ',', usecols = [1, 2, 3, 4, 5, 6, 7, 8, 9])
+    '''
+    Umemura 03/10/2020
+    Add + "\\" + on temporary_df
+    '''
+    if file == '01.2019_1-10.csv':
+        temporary_df = pd.read_csv(path + "\\" + file, delimiter = ',' ''''', usecols = [1, 2, 3, 4, 5, 6, 7, 8, 9]''')
         df.append(temporary_df)
     else:
-        temporary_df = pd.read_csv(path + file, delimiter = ',')
+        temporary_df = pd.read_csv(path + "\\" + file, delimiter = ',')
         df.append(temporary_df)
+
 df = pd.concat(df)
 df.drop(columns = ['day_day', 'day_month', 'day_year'], axis = 1, inplace = True)
 
